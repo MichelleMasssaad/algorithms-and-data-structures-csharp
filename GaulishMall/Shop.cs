@@ -85,6 +85,141 @@ public class Shop
             }
         }
     }
+    
+    
+    public static int[] Selection(int[] array, int budget)
+    {
+        var res_size = 0;
+        var total = 0;
+        
+        var carray = new int[array.Length];
+        for (var i = 0; i < array.Length; i++)
+            carray[i] = array[i];
+        var barray = new int[array.Length];
+        for (var i = 0; i < array.Length; i++)
+            barray[i] = array[i];
+        
+        for (int i = 0; i < array.Length; i++)
+        {
+            var max = budget - total;
+            var current = -1;
+            for (int j = 0; j < barray.Length; j++)
+            {
+                if (barray[j] == -1) continue;
+                if (current == -1)
+                {
+                    if (barray[j] < max) current = j;
+                    continue;
+                }
+                if (barray[j] > barray[current] && barray[j] <= max)
+                {
+                    current = j;
+                }
+            }
+            if (current == -1) break;
+            res_size++;
+            total += barray[current];
+            barray[current] = -1;
+            if (total >= budget) break;
+        }
+        
+        var res = new int[res_size];
+        total = 0;
+        var ind = 0;
+        for (int i = 0; i < carray.Length; i++)
+        {
+            var max = budget - total;
+            var current = -1;
+            for (int j = 0; j < carray.Length; j++)
+            {
+                if (carray[j] == -1) continue;
+                if (current == -1)
+                {
+                    if (barray[j] < max) current = j;
+                    continue;
+                }
+                if (carray[j] > carray[current] && carray[j] <= max)
+                {
+                    current = j;
+                }
+            }
+            if (current == -1) break;
+            res[ind] = current;
+            ind++;
+            total += carray[current];
+            carray[current] = -1;
+            if (total >= budget) break;
+        }
+        BubbleSort(res);
+        var res2 = new int[res_size];
+        for (int i = 0; i < res.Length; i++)
+            res2[i] = array[res[i]];
+        return res2;
+    }
+
+//FAUXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+   /* public static int[] Selection(int[] array, int budget)
+    {
+        foreach (int price in array)
+        {
+            if (price <= 0)
+            {
+                throw new ArgumentException("...");
+            }
+        }
+
+        if (budget <= 0)
+        {
+            throw new ArgumentException("...");
+        }
+
+        if (array == null || array.Length == 0)
+        {
+            throw new ArgumentException("...");
+        }
+        
+        int index = 0;
+        int[] list = new int[index];
+        
+        for (int i = 0; i < budget; i++)
+        {
+           
+            budget -= array[i];
+            list [i] = array[i];
+            index++;
+        }
+        return list;
+        
+    }
+    */
+    //CODE AVANT IS WRONGGGGGGGG
+    
+    public static int Binarix(int[] array, int x)
+    {
+        int left = 0;
+        int right = array.Length - 1;
+
+        while (left <= right)
+        {
+            int mid = (left + right) / 2;
+
+            if (array[mid] == x)
+            {
+                return mid;
+            }
+            else if (array[mid] < x)
+            {
+                left = mid + 1;
+            }
+            else
+            {
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
+
 
 
 

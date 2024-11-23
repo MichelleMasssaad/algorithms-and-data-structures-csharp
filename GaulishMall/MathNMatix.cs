@@ -25,11 +25,59 @@ public class MathNMatix
         result += count.ToString() + temp;
         return result;
     }
-
+    
+    
     public static string Uncompress(string compressed)
     {
-        
+        string result = "";
+        int i = 0;
 
+        while (i < compressed.Length)
+        {
+            int count = 0;
+
+            while (i < compressed.Length && compressed[i] >= '0' && compressed[i] <= '9')
+            {
+                count = count * 10 + (compressed[i] - '0');
+                i++;
+            }
+
+            if (i >= compressed.Length || (compressed[i] < ' ' || compressed[i] > '~'))
+                throw new ArgumentException();
+
+            result += new string(compressed[i], count);
+            i++;
+        }
+
+        return result;
+    }
+    
+    
+    
+    public static int[,] MatrixMult(int[,] mat1, int[,] mat2)
+    {
+        int rows1 = mat1.GetLength(0); // Nbre de lignes de mat1
+        int cols1 = mat1.GetLength(1); // Nbre de colonnes de mat1
+        int rows2 = mat2.GetLength(0); // Nbre de lignes de mat2
+        int cols2 = mat2.GetLength(1); // Nbre de colonnes de mat2
+
+        if (cols1 != rows2)
+            throw new ArgumentException("...");
+
+        int[,] result = new int[rows1, cols2];
+
+        for (int i = 0; i < rows1; i++)
+        {
+            for (int j = 0; j < cols2; j++)
+            {
+                for (int k = 0; k < cols1; k++)
+                {
+                    result[i, j] += mat1[i, k] * mat2[k, j];
+                }
+            }
+        }
+
+        return result;
     }
 
 }
